@@ -1,0 +1,79 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url(./fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'JosefinsSans';
+    src: url(./fonts/JosefinSans-Regular.ttf);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: #FFF4E9;
+}
+
+/* Header Area */
+
+.header {
+    width: 100vw;
+    font-family: 'JosefinsSans', sans-serif;
+    padding: 30px;
+    background-color: #8D6B94;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    color: white;
+}
+
+.logo h1 {
+    font-size: 3rem;
+    color: white;
+}
+
+.logo .icon {
+    width: 50px;
+    align-self: flex-start;
+    color: white;
+    margin-left: -10px;
+}
+
+
+/* Main Content */
+
+.main {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 300px;
+}
+
+.book-div {
+    font-family: 'Roboto';
+    color: rgb(255, 255, 255);
+    letter-spacing: 0.1rem;
+    background-color: #9b866d;
+
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid rgb(146, 133, 133);
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
