@@ -14,7 +14,7 @@
 }
 
 body {
-    background-color: #FFF4E9;
+    background-color: #8D6B94;
 }
 
 /* Header Area */
@@ -23,7 +23,7 @@ body {
     width: 100vw;
     font-family: 'JosefinsSans', sans-serif;
     padding: 30px;
-    background-color: #8D6B94;
+    background-color: #5e577e;
 
     display: flex;
     justify-content: center;
@@ -57,23 +57,78 @@ body {
 
 .main {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-auto-rows: 300px;
+    gap: 20px;
+    padding: 15px;
+    padding-top: 25px;
 }
+
+/* book sections */
 
 .book-div {
     font-family: 'Roboto';
-    color: rgb(255, 255, 255);
-    letter-spacing: 0.1rem;
-    background-color: #9b866d;
+    font-weight: 600;
+    color: rgb(95, 90, 90);
+    letter-spacing: 0.05rem;
+    background-color: #dfd791;
 
-    padding: 10px;
-    margin: 10px;
-    border: 2px solid rgb(146, 133, 133);
+    padding: 20px;
+
     border-radius: 10px;
 
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.book-div h2 {
+    font-size: 1.6rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-align: center;
+}
+
+.book-div p {
+    font-size: 1.3rem;
+}
+
+.book-div > div {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
     gap: 10px;
 }
+
+/* add book section */
+
+.add-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add {
+    font-size: 4rem;
+    color:white;
+    background-color: #5e577e;
+    border-radius: 50%;
+
+    width: 80px;
+    height: 80px;
+
+    padding-bottom: 1px;
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* add book modal */
 
