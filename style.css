@@ -64,10 +64,9 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     grid-auto-rows: 350px;
-    gap: 40px;
+    gap: 30px;
 
-    padding: 15px;
-    padding-top: 25px;
+    padding: 25px 30px 25px 30px;
 }
 
 /* book sections */
@@ -110,6 +109,10 @@ body {
 
 .book-div path {
     fill: #504a6b;
+}
+
+.book-div svg:hover path{
+    fill: rgb(207, 70, 70);
 }
 
 .confirm-delete-div {
@@ -159,6 +162,19 @@ body {
 .confirm-delete-div .delete-button {
     background-color: #c23131;
     color: white;
+
+    cursor: pointer;
+}
+
+.confirm-delete-div .delete-button:hover {
+    background-color: #9c2828;
+}
+
+.confirm-delete-div .cancel-button:hover {
+    background-color: #ccc;
+    color: rgb(0, 0, 0);
+
+    cursor: pointer;
 }
 
 /* title and author */
@@ -215,6 +231,16 @@ body {
     cursor: pointer;
 }
 
+.status-button:hover {
+    background-color: #69506e;
+    color: white;
+}
+
+.status-button:active {
+    background-color: #503c53;
+    color: white;
+}
+
 /* add book section */
 
 .add-div {
@@ -226,7 +252,7 @@ body {
 .add {
     font-size: 4rem;
     color:white;
-    background-color: #5e577e;
+    background-color: #746b9b;
     border-radius: 50%;
 
     width: 80px;
@@ -239,6 +265,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.add:hover {
+    color: white;
+    background-color: #524c6d;
+}
+
+.add:active {
+    color: white;
+    background-color: #4b4563;
 }
 
 /* add book modal */
