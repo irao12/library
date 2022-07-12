@@ -127,7 +127,7 @@ function updateBookDiv (bookDiv) {
     // update the progress bar
     const progressIndicator = bookDiv.children[3].firstChild;
     let percentageRead = currBook.read / currBook.pages;
-    progressIndicator.style.width= "" + (percentageRead * 100) + "%";
+    progressIndicator.style.width= "" + Math.floor(percentageRead * 100) + "%";
 
     // update the status
     const status = bookDiv.children[4];
@@ -142,9 +142,15 @@ function confirmDelete (bookDiv) {
     
     const titleAndAuthor = bookDiv.children[1]; 
     const titleAndAuthorMessage = document.createElement('div');
-    titleAndAuthorMessage.textContent = titleAndAuthor.firstChild.textContent
-                                        + " "  
-                                        + titleAndAuthor.lastChild.textContent;
+
+    const title = document.createElement('h2');
+    title.textContent = titleAndAuthor.firstChild.textContent;
+    titleAndAuthorMessage.appendChild(title);
+
+    const author = document.createElement('p');
+    author.textContent = titleAndAuthor.lastChild.textContent;
+    titleAndAuthorMessage.appendChild(author);
+
     confirmDeleteDiv.appendChild(titleAndAuthorMessage);
 
     const deleteButtons = document.createElement('div');
@@ -228,7 +234,7 @@ function displayBook(book) {
 
     const progressIndicator = document.createElement('div');
     progressIndicator.classList.add('progress-indicator');
-    progressIndicator.style.width= "" + (percentageRead * 100) + "%";
+    progressIndicator.style.width= "" + Math.floor(percentageRead * 100) + "%";
     progressBar.appendChild(progressIndicator);
 
     /* status */
