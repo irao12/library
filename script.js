@@ -122,9 +122,7 @@ function displayBook(book) {
             }
 
             bookDiv.remove();
-
-            console.log(myLibrary);
-
+            
             currIndex--;   
         }
     });
