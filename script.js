@@ -117,8 +117,13 @@ function updateBookDiv (bookDiv) {
     const pagesSection = bookDiv.children[2];
     pagesSection.children[1].innerText = 'pages read: ' + currBook.read;
 
+    // update the progress bar
+    const progressIndicator = bookDiv.children[3].firstChild;
+    let percentageRead = currBook.read / currBook.pages;
+    progressIndicator.style.width= "" + (percentageRead * 100) + "%";
+
     // update the status
-    const status = bookDiv.children[3];
+    const status = bookDiv.children[4];
     status.innerText = ('status: ' + (currBook.finished ? 'finished' : 'not finished'));
 }
 
@@ -133,6 +138,7 @@ function displayBook(book) {
 
     /* title and author section */
     const titleAndAuthorDiv = document.createElement('div');
+    titleAndAuthorDiv.classList.add('title-and-author')
     titleAndAuthorDiv.innerHTML =  '<h2>' + book.title + '</h2>' +
                                 '<p>by ' + book.author + '</p>';
     bookDiv.appendChild(titleAndAuthorDiv);
@@ -142,6 +148,17 @@ function displayBook(book) {
     pagesDiv.innerHTML = '<p>page count: ' + book.pages + '</p>' +
                         '<p>pages read: ' + book.read + '</p>';
     bookDiv.appendChild(pagesDiv);
+
+    // progress bar 
+    const progressBar = document.createElement('div');
+    progressBar.classList.add('progress-bar');
+    bookDiv.append(progressBar);
+    let percentageRead = book.read / book.pages;
+
+    const progressIndicator = document.createElement('div');
+    progressIndicator.classList.add('progress-indicator');
+    progressIndicator.style.width= "" + (percentageRead * 100) + "%";
+    progressBar.appendChild(progressIndicator);
 
     /* status */
     const status = document.createElement('p');
@@ -214,7 +231,7 @@ document.querySelector('.add').addEventListener('click', (e) => {
 document.querySelector('.close').addEventListener('click', closeAdd);
 
 
-const book1 = new Book ("The Great Gatsby", "F. Scott Fitzgerald", 208, 0,  false);
+const book1 = new Book ("The Great Gatsby", "F. Scott Fitzgerald", 208, 102,  false);
 const book2 = new Book ("Because of Winn-Dixie", "Kate DiCamillo", 182, 0, false);
 book2.bookNumber = 1;
 currIndex = 2;

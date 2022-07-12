@@ -112,7 +112,7 @@ body {
     fill: #504a6b;
 }
 
-/* delete */
+/* title and author */
 
 .book-div h2 {
     font-size: 1.6rem;
@@ -124,7 +124,7 @@ body {
     font-size: 1.3rem;
 }
 
-.book-div > div {
+.book-div > .title-and-author {
     display: flex;
     flex-direction: column;
 
@@ -132,6 +132,21 @@ body {
     align-items: center;
 
     gap: 10px;
+}
+
+.progress-bar {
+    background-color: white;
+    width: min(60%, 300px);
+    height: 20px;
+
+    border-radius: 10px;
+}
+
+.progress-indicator {
+    background-color: green;
+    height: 20px;
+
+    border-radius: 10px;
 }
 
 .status-button {
