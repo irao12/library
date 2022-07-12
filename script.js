@@ -249,7 +249,14 @@ function displayBook(book) {
     changeStatusButton.classList.add('status-button');
 
     changeStatusButton.addEventListener('click', () => {
-        myLibrary[parseInt(bookDiv.getAttribute('number'))].changeStatus();
+        const currBook = myLibrary[parseInt(bookDiv.getAttribute('number'))]
+        currBook.changeStatus();
+        if (currBook.finished){
+            currBook.read = currBook.pages;
+        }
+        else {
+            currBook.read = 0;
+        }
         updateBookDiv(bookDiv);
         changeStatusButton.textContent = changeStatusButton.textContent == 'mark as finished' 
                                          ? 'mark as unfinished'
@@ -293,7 +300,7 @@ document.querySelector('.close').addEventListener('click', () => {
 
 
 const book1 = new Book ("The Great Gatsby", "F. Scott Fitzgerald", 208, 102,  false);
-const book2 = new Book ("Because of Winn-Dixie", "Kate DiCamillo", 182, 0, false);
+const book2 = new Book ("Because of Winn-Dixie", "Kate DiCamillo", 182, 32, false);
 book2.bookNumber = 1;
 currIndex = 2;
 
