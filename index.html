@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class="grid">
+
         <div class="header">
             <div class="logo">
                 <div class="icon">
@@ -22,15 +23,33 @@
                 <h1> MyLibrary </h1>
             </div>
         </div>
+
         <div class="main">
             <div class="add-div book-div">
                 <div class="add">+</div>
             </div>
+            <div class="add-modal">
+                <div class="add-book-form">
+                    <div class="close">+</div>
+                    <form action="">
+                        Add a book!
+                        
+                        <input type="text" id="title-input" placeholder="title" required>
+                        <input type="text" id="author-input" placeholder="author">
+                        <div class="form-page-section">
+                            <input type="number" id="num-pages-input" placeholder="# of pages" min=0>
+                            <input type="number" id="num-read-input" placeholder="# pages read" min=0>
+                        </div>
 
-            
-
+                        <button type="button" class='add-button'onclick=createNewBook()>add</button>
+                        
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+
+    
     
 </body>
 </html>
