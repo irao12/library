@@ -64,7 +64,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     grid-auto-rows: 350px;
-    gap: 20px;
+    gap: 40px;
 
     padding: 15px;
     padding-top: 25px;
@@ -83,17 +83,41 @@ body {
 
     border-radius: 10px;
 
+    position: relative;
+
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
 }
 
+.book-div > * {
+    text-align: center;
+}
+
+/* delete */
+
+.book-div .delete {
+    width: 30px;
+    align-self: flex-end;
+    padding-top: 0px;
+
+    position: absolute;
+    top: 10px;
+
+    cursor: pointer;
+}
+
+.book-div path {
+    fill: #504a6b;
+}
+
+/* delete */
+
 .book-div h2 {
     font-size: 1.6rem;
     text-decoration: underline;
     text-underline-offset: 3px;
-    text-align: center;
 }
 
 .book-div p {
@@ -169,7 +193,7 @@ body {
     cursor: pointer;
 }
 
-.add-book-form {
+.add-book-form-div {
     color: white;
     letter-spacing: 1px;
     font-weight: 600;
@@ -186,7 +210,7 @@ body {
     border-radius: 10px;
 }
 
-.add-book-form form {
+#add-book-form {
     height: min(70%, 400px);
 
     display: flex;
@@ -196,7 +220,7 @@ body {
     gap: 20px;
 }
 
-.add-book-form .form-page-section {
+.add-book-form-div .form-page-section {
     display: flex;
     justify-content: space-around;
     width: 65%
@@ -209,7 +233,7 @@ body {
     width: 60%;
 }
 
-.add-book-form input[type='text'] {
+.add-book-form-div input[type='text'] {
     width: 60%;
     font-size: 1rem;
     font-weight: 600;
@@ -221,7 +245,7 @@ body {
     
 }
 
-.add-book-form input[type='number'] {
+.add-book-form-div input[type='number'] {
     width: min(40%, 120px);
     font-size: 1rem;
     font-weight: 600;
@@ -232,7 +256,7 @@ body {
     padding: 7px;
 }
 
-.add-book-form button {
+.add-book-form-div button {
     color: #504a6b;
     font-weight: 600;
 

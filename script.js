@@ -1,6 +1,8 @@
 let myLibrary = [];
+let currIndex = 0;
 
 function Book(title, author, pages, read, finished) {
+    this.bookNumber = currIndex;
     this.title = title;
     this.author = author;
     this.pages = pages;
@@ -24,8 +26,6 @@ function createNewBook () {
     const authorValue = author.value;
     const numPagesValue = numPages.value;
     const numReadValue = numRead.value;
-
-    console.log(titleValue, authorValue, numPagesValue, numReadValue);   
 
     let hasTitle = titleValue != '';
     let hasValid = numPagesValue >= numReadValue;
@@ -71,15 +71,15 @@ function createNewBook () {
                                   numReadValue == '' ? 0 : numReadValue,
                                   (numPagesValue != '' && numPagesValue == numReadValue) ? true : false
                                  );
-        myLibrary.push(newBook);
+        currIndex++;
+
+        addBookToLibrary(newBook);
         displayBook(newBook);
+
         closeAdd();
 
         // reset form values
-        title.value = '';
-        author.value = '';
-        numPages.value = '';
-        numRead.value = '';
+        document.querySelector('#add-book-form').reset();
     }
 }
 
@@ -89,33 +89,64 @@ function addBookToLibrary(book){
 
 function displayBook(book) {
     const bookDiv = document.createElement("div");
-    bookDiv.innerHTML = '<div> <h2>' + book.title + '</h2>' +
+    bookDiv.innerHTML = '<div class="delete"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg> </div>'+
+                        '<div> <h2>' + book.title + '</h2>' +
                         '<p>by ' + book.author + '</p> </div>' + 
                         '<p>page count: ' + book.pages + '</p>' +
                         '<p>pages read: ' + book.read + '</p>' +
                         '<p>status: ' + (book.finished ? 'finished' : 'not finished') + '</p>' +
                         '</div>';
-                        
 
+    bookDiv.setAttribute('number', book.bookNumber);
     bookDiv.classList.add("book-div");
 
     const add = document.querySelector('.add-div');
     add.parentNode.insertBefore(bookDiv, add);
+
+    bookDiv.addEventListener('click', (e) => {
+        if (e.target.parentNode.classList.contains('delete') ||
+            e.target.parentNode.parentNode.classList.contains('delete'))
+        {
+            bookNum = parseInt(bookDiv.getAttribute('number'));
+
+            myLibrary.splice(bookNum, 1);
+
+            let nextBook = bookDiv.nextSibling;
+            while (nextBook && nextBook.getAttribute('number')){
+                nextBook.setAttribute('number', bookNum - 1)
+                nextBook = nextBook.nextSibling;
+            }
+
+            for (let i = bookNum; i < myLibrary.length; i++){
+                myLibrary[i].bookNumber--;
+            }
+
+            bookDiv.remove();
+
+            console.log(myLibrary);
+
+            currIndex--;   
+        }
+    });
 }
 
 function displayLibrary () {
     myLibrary.forEach(displayBook);
 }
 
+// add button
 document.querySelector('.add').addEventListener('click', (e) => {
     document.querySelector('.add-modal').classList.add("active");
 });
 
+// close button for the add modal
 document.querySelector('.close').addEventListener('click', closeAdd);
 
 
 const book1 = new Book ("The Great Gatsby", "F. Scott Fitzgerald", 208, 0,  false);
 const book2 = new Book ("Because of Winn-Dixie", "Kate DiCamillo", 182, 0, false);
+book2.bookNumber = 1;
+currIndex = 2;
 
 addBookToLibrary(book1);
 addBookToLibrary(book2);
