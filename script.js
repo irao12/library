@@ -101,7 +101,7 @@ function updateBookDiv (bookDiv) {
     pagesSection.children[1].innerText = 'pages read: ' + currBook.read;
 
     const status = bookDiv.children[3];
-    status.innerText = 'status: ' + currBook.finished ? 'finished' : 'not finished';
+    status.innerText = ('status: ' + (currBook.finished ? 'finished' : 'not finished'));
 }
 
 function displayBook(book) {
