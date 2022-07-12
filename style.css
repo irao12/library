@@ -134,6 +134,19 @@ body {
     gap: 10px;
 }
 
+.status-button {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #8D6B94;
+    color: white;
+
+    font-size: 1rem;
+    font-family: 'Roboto';
+
+    cursor: pointer;
+}
+
 /* add book section */
 
 .add-div {

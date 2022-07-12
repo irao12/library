@@ -10,6 +10,12 @@ function Book(title, author, pages, read, finished) {
     this.finished = finished;
 }
 
+Book.prototype.changeStatus = function () {
+    this.finished = true;
+    this.read = this.pages;
+}
+
+
 function closeAdd () {
     // modal only shows if it has the active class, so remove it to close it
     document.querySelector('.add-modal').classList.remove("active");
@@ -87,15 +93,47 @@ function addBookToLibrary(book){
     myLibrary.push(book);
 }
 
+function updateBookDiv (bookDiv) {
+    const bookNum = parseInt(bookDiv.getAttribute('number'));
+    const currBook = myLibrary[bookNum];
+
+    const pagesSection = bookDiv.children[2];
+    pagesSection.children[1].innerText = 'pages read: ' + currBook.read;
+
+    const status = bookDiv.children[3];
+    status.innerText = 'status: ' + currBook.finished ? 'finished' : 'not finished';
+}
+
 function displayBook(book) {
     const bookDiv = document.createElement("div");
-    bookDiv.innerHTML = '<div class="delete"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg> </div>'+
-                        '<div> <h2>' + book.title + '</h2>' +
-                        '<p>by ' + book.author + '</p> </div>' + 
-                        '<p>page count: ' + book.pages + '</p>' +
-                        '<p>pages read: ' + book.read + '</p>' +
-                        '<p>status: ' + (book.finished ? 'finished' : 'not finished') + '</p>' +
-                        '</div>';
+
+    const deleteDiv = document.createElement('div');
+    deleteDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>';
+    deleteDiv.classList.add('delete');
+    bookDiv.appendChild(deleteDiv);
+
+    const titleAndAuthorDiv = document.createElement('div');
+    titleAndAuthorDiv.innerHTML =  '<h2>' + book.title + '</h2>' +
+                                '<p>by ' + book.author + '</p>';
+    bookDiv.appendChild(titleAndAuthorDiv);
+
+    const pagesDiv = document.createElement('div');
+    pagesDiv.innerHTML = '<p>page count: ' + book.pages + '</p>' +
+                        '<p>pages read: ' + book.read + '</p>';
+    bookDiv.appendChild(pagesDiv);
+
+    const status = document.createElement('p');
+    status.textContent = 'status: ' + (book.finished ? 'finished' : 'not finished');
+    bookDiv.appendChild(status);
+
+    const changeStatusButton = document.createElement('button');
+    changeStatusButton.innerText = "mark as finished";
+    changeStatusButton.classList.add('status-button');
+    changeStatusButton.addEventListener('click', () => {
+        myLibrary[parseInt(bookDiv.getAttribute('number'))].changeStatus();
+        updateBookDiv(bookDiv);
+    });
+    bookDiv.appendChild(changeStatusButton);
 
     bookDiv.setAttribute('number', book.bookNumber);
     bookDiv.classList.add("book-div");
