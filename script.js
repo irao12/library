@@ -109,8 +109,6 @@ function displayBook(book) {
         {
             bookNum = parseInt(bookDiv.getAttribute('number'));
 
-            myLibrary.splice(bookNum, 1);
-
             let nextBook = bookDiv.nextSibling;
             while (nextBook && nextBook.getAttribute('number')){
                 nextBook.setAttribute('number', bookNum - 1)
@@ -118,11 +116,14 @@ function displayBook(book) {
             }
 
             for (let i = bookNum; i < myLibrary.length; i++){
+                console.log(i);
                 myLibrary[i].bookNumber--;
             }
 
+            myLibrary.splice(bookNum, 1);
+
             bookDiv.remove();
-            
+
             currIndex--;   
         }
     });
