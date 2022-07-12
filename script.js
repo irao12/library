@@ -26,7 +26,7 @@ Book.prototype.changeStatus = function () {
 
 function closeAdd () {
     // modal only shows if it has the active class, so remove it to close it
-    document.querySelector('.add-modal').classList.remove("active");
+    document.querySelector('.modal').classList.remove("active");
 }
 
 function createNewBook () {
@@ -94,7 +94,7 @@ function createNewBook () {
         closeAdd();
 
         // reset form values
-        document.querySelector('#add-book-form').reset();
+        document.querySelector('.add-book-form').reset();
     }
 }
 
@@ -205,7 +205,8 @@ function displayLibrary () {
 
 // add button
 document.querySelector('.add').addEventListener('click', (e) => {
-    document.querySelector('.add-modal').classList.add("active");
+    document.querySelector('.modal').classList.add("active");
+    document.querySelector('.add-book-form').classList.add("active");
 });
 
 // close button for the add modal
