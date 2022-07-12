@@ -150,7 +150,8 @@ function displayBook(book) {
 
     /* change status button */
     const changeStatusButton = document.createElement('button');
-    changeStatusButton.innerText = "mark as finished";
+    changeStatusButton.innerText = book.finished ? "mark as unfinished" 
+                                                 : "mark as finished";
     changeStatusButton.classList.add('status-button');
 
     changeStatusButton.addEventListener('click', () => {
