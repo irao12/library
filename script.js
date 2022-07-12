@@ -11,8 +11,16 @@ function Book(title, author, pages, read, finished) {
 }
 
 Book.prototype.changeStatus = function () {
-    this.finished = true;
-    this.read = this.pages;
+    // change the status 
+    this.finished = this.finished ? false : true;
+
+    // pages read becomes the same as the page count if finished, 0 if not
+    if (this.finished) {
+        this.read = this.pages;
+    }
+    else {
+        this.read = 0;
+    }
 }
 
 
@@ -28,6 +36,7 @@ function createNewBook () {
     const numRead = document.querySelector('#num-read-input');
     const addButton = document.querySelector('.add-button');
 
+    // retrieve values from the form inputs
     const titleValue = title.value;
     const authorValue = author.value;
     const numPagesValue = numPages.value;
@@ -97,9 +106,18 @@ function updateBookDiv (bookDiv) {
     const bookNum = parseInt(bookDiv.getAttribute('number'));
     const currBook = myLibrary[bookNum];
 
+    // update the title and author
+    const titleAndAuthorDiv = bookDiv.children[1];
+    const title = titleAndAuthorDiv.firstChild;
+    const author = titleAndAuthorDiv.lastChild;
+    title.textContent = currBook.title;
+    author.textContent = "by " + currBook.author;
+
+    // updated page count and pages read
     const pagesSection = bookDiv.children[2];
     pagesSection.children[1].innerText = 'pages read: ' + currBook.read;
 
+    // update the status
     const status = bookDiv.children[3];
     status.innerText = ('status: ' + (currBook.finished ? 'finished' : 'not finished'));
 }
@@ -107,31 +125,40 @@ function updateBookDiv (bookDiv) {
 function displayBook(book) {
     const bookDiv = document.createElement("div");
 
+    /* delete button*/
     const deleteDiv = document.createElement('div');
     deleteDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>';
     deleteDiv.classList.add('delete');
     bookDiv.appendChild(deleteDiv);
 
+    /* title and author section */
     const titleAndAuthorDiv = document.createElement('div');
     titleAndAuthorDiv.innerHTML =  '<h2>' + book.title + '</h2>' +
                                 '<p>by ' + book.author + '</p>';
     bookDiv.appendChild(titleAndAuthorDiv);
 
+    /* page count and pages read */
     const pagesDiv = document.createElement('div');
     pagesDiv.innerHTML = '<p>page count: ' + book.pages + '</p>' +
                         '<p>pages read: ' + book.read + '</p>';
     bookDiv.appendChild(pagesDiv);
 
+    /* status */
     const status = document.createElement('p');
     status.textContent = 'status: ' + (book.finished ? 'finished' : 'not finished');
     bookDiv.appendChild(status);
 
+    /* change status button */
     const changeStatusButton = document.createElement('button');
     changeStatusButton.innerText = "mark as finished";
     changeStatusButton.classList.add('status-button');
+
     changeStatusButton.addEventListener('click', () => {
         myLibrary[parseInt(bookDiv.getAttribute('number'))].changeStatus();
         updateBookDiv(bookDiv);
+        changeStatusButton.textContent = changeStatusButton.textContent == 'mark as finished' 
+                                         ? 'mark as unfinished'
+                                         : 'mark as finished';
     });
     bookDiv.appendChild(changeStatusButton);
 
@@ -141,26 +168,32 @@ function displayBook(book) {
     const add = document.querySelector('.add-div');
     add.parentNode.insertBefore(bookDiv, add);
 
+    /* if the user clicks on the delete button, remove the book */
     bookDiv.addEventListener('click', (e) => {
+        /* since a click can be registered on the svg or its path, check both parents */
         if (e.target.parentNode.classList.contains('delete') ||
             e.target.parentNode.parentNode.classList.contains('delete'))
         {
             bookNum = parseInt(bookDiv.getAttribute('number'));
 
+            // decrement the book number of every other book after it
             let nextBook = bookDiv.nextSibling;
+
+            //while the nextBook exists and has a number, decrement the number
             while (nextBook && nextBook.getAttribute('number')){
                 nextBook.setAttribute('number', nextBook.getAttribute('number') - 1)
                 nextBook = nextBook.nextSibling;
             }
 
+            // decrement the bookNumber attribute in each book object after as well
             for (let i = bookNum; i < myLibrary.length; i++){
                 myLibrary[i].bookNumber--;
             }
 
+            // remove the book from the library and DOM. Decrement the index
             myLibrary.splice(bookNum, 1);
 
             bookDiv.remove();
-            console.log(myLibrary);
             currIndex--;   
         }
     });
