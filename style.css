@@ -112,6 +112,50 @@ body {
     fill: #504a6b;
 }
 
+.confirm-delete-div {
+    height: min(70%, 400px);
+    padding: 10px;;
+
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.confirm-delete-div > p {
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+    padding: 0px 20px 0 20px;
+}
+
+.confirm-delete-div > div {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #fff;
+    padding: 0px 17.5px;
+}
+
+.confirm-delete-div > .delete-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.confirm-delete-div button {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 8px;
+
+    font-size: 1rem;
+    font-family: 'Roboto';
+}
+
+.confirm-delete-div .delete-button {
+    background-color: #c23131;
+    color: white;
+}
+
 /* title and author */
 
 .book-div h2 {
@@ -139,14 +183,18 @@ body {
     width: min(60%, 300px);
     height: 20px;
 
+    position: relative;
+
     border-radius: 10px;
 }
 
 .progress-indicator {
     background-color: green;
     height: 20px;
-
     border-radius: 10px;
+
+    display: absolute;
+    left: 0;
 }
 
 .status-button {
@@ -210,6 +258,8 @@ body {
 }
 
 .close {
+    display: none;
+
     position: absolute;
     right: 15px;
     top: 5px;
@@ -217,7 +267,7 @@ body {
     cursor: pointer;
 }
 
-.add-book-form-div {
+.form-div {
     color: white;
     letter-spacing: 1px;
     font-weight: 600;
@@ -244,11 +294,7 @@ body {
     gap: 20px;
 }
 
-.active {
-    display: flex;
-}
-
-.add-book-form-div .form-page-section {
+.form-div .form-page-section {
     display: flex;
     justify-content: space-around;
     width: 65%
@@ -261,7 +307,7 @@ body {
     width: 60%;
 }
 
-.add-book-form-div input[type='text'] {
+.form-div input[type='text'] {
     width: 60%;
     font-size: 1rem;
     font-weight: 600;
@@ -273,7 +319,7 @@ body {
     
 }
 
-.add-book-form-div input[type='number'] {
+.form-div input[type='number'] {
     width: min(40%, 120px);
     font-size: 1rem;
     font-weight: 600;
@@ -284,7 +330,7 @@ body {
     padding: 7px;
 }
 
-.add-book-form-div button {
+.add-book-form button {
     color: #504a6b;
     font-weight: 600;
 
@@ -296,4 +342,8 @@ body {
     border-radius: 8px;;
 
     cursor: pointer;
+}
+
+.active {
+    display: flex;
 }

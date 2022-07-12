@@ -32,8 +32,13 @@
 
             <div class="modal">
 
-                <div class="add-book-form-div">
+                <div class="form-div">
                     <div class="close">+</div>
+
+                    <div class="confirm-delete-div">
+                        <p>Are you sure you want to delete?</p>
+                    </div>
+
                     <form class='add-book-form' action="">
                         Add a book!
                         
@@ -44,7 +49,7 @@
                             <input type="number" id="num-read-input" placeholder="# pages read" min=0 title="number of pages read">
                         </div>
 
-                        <button type="button" class='add-button'onclick=createNewBook()>add</button>
+                        <button type="button" class='add-button' onclick=createNewBook()>add</button>
                     </form>
 
                 </div>

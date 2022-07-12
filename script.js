@@ -24,9 +24,15 @@ Book.prototype.changeStatus = function () {
 }
 
 
-function closeAdd () {
+function closeModal() {
     // modal only shows if it has the active class, so remove it to close it
     document.querySelector('.modal').classList.remove("active");
+}
+
+function closeAddModal() {
+    closeModal();
+    document.querySelector('.close').classList.remove('active');
+    document.querySelector('.add-book-form').classList.remove('active');
 }
 
 function createNewBook () {
@@ -91,10 +97,11 @@ function createNewBook () {
         addBookToLibrary(newBook);
         displayBook(newBook);
 
-        closeAdd();
+        closeAddModal();
 
         // reset form values
         document.querySelector('.add-book-form').reset();
+        
     }
 }
 
@@ -125,6 +132,70 @@ function updateBookDiv (bookDiv) {
     // update the status
     const status = bookDiv.children[4];
     status.innerText = ('status: ' + (currBook.finished ? 'finished' : 'not finished'));
+}
+
+function confirmDelete (bookDiv) {
+    document.querySelector('.modal').classList.add('active');
+    document.querySelector('.confirm-delete-div').classList.add('active');
+
+    const confirmDeleteDiv = document.querySelector('.confirm-delete-div');
+    
+    const titleAndAuthor = bookDiv.children[1]; 
+    const titleAndAuthorMessage = document.createElement('div');
+    titleAndAuthorMessage.textContent = titleAndAuthor.firstChild.textContent
+                                        + " "  
+                                        + titleAndAuthor.lastChild.textContent;
+    confirmDeleteDiv.appendChild(titleAndAuthorMessage);
+
+    const deleteButtons = document.createElement('div');
+    deleteButtons.classList.add('delete-buttons');
+    
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-button');
+    deleteButton.textContent = 'delete';
+    deleteButtons.appendChild(deleteButton);
+
+    const cancelButton = document.createElement('button');
+    cancelButton.classList.add('cancel-button');
+    cancelButton.textContent = 'cancel';
+    deleteButtons.appendChild(cancelButton);
+    confirmDeleteDiv.append(deleteButtons);
+
+    deleteButtons.firstElementChild.addEventListener('click', (e)=>{
+        let bookNum = parseInt(bookDiv.getAttribute('number'));
+
+        // decrement the book number of every other book after it
+        let nextBook = bookDiv.nextSibling;
+
+        //while the nextBook exists and has a number, decrement the number
+        while (nextBook && nextBook.getAttribute('number')){
+            nextBook.setAttribute('number', nextBook.getAttribute('number') - 1)
+            nextBook = nextBook.nextSibling;
+        }
+
+        // decrement the bookNumber attribute in each book object after as well
+        for (let i = bookNum; i < myLibrary.length; i++){
+            myLibrary[i].bookNumber--;
+        }
+
+        // remove the book from the library and DOM. Decrement the index
+        myLibrary.splice(bookNum, 1);
+
+        bookDiv.remove();
+        currIndex--;   
+
+        titleAndAuthorMessage.remove();
+        deleteButtons.remove();
+        document.querySelector('.confirm-delete-div').classList.remove('active');
+        closeModal();
+    });
+    
+    deleteButtons.lastElementChild.addEventListener('click', (e)=>{
+        titleAndAuthorMessage.remove();
+        deleteButtons.remove();
+        document.querySelector('.confirm-delete-div').classList.remove('active');
+        closeModal();
+    });
 }
 
 function displayBook(book) {
@@ -189,30 +260,11 @@ function displayBook(book) {
     /* if the user clicks on the delete button, remove the book */
     bookDiv.addEventListener('click', (e) => {
         /* since a click can be registered on the svg or its path, check both parents */
+
         if (e.target.parentNode.classList.contains('delete') ||
             e.target.parentNode.parentNode.classList.contains('delete'))
         {
-            bookNum = parseInt(bookDiv.getAttribute('number'));
-
-            // decrement the book number of every other book after it
-            let nextBook = bookDiv.nextSibling;
-
-            //while the nextBook exists and has a number, decrement the number
-            while (nextBook && nextBook.getAttribute('number')){
-                nextBook.setAttribute('number', nextBook.getAttribute('number') - 1)
-                nextBook = nextBook.nextSibling;
-            }
-
-            // decrement the bookNumber attribute in each book object after as well
-            for (let i = bookNum; i < myLibrary.length; i++){
-                myLibrary[i].bookNumber--;
-            }
-
-            // remove the book from the library and DOM. Decrement the index
-            myLibrary.splice(bookNum, 1);
-
-            bookDiv.remove();
-            currIndex--;   
+            confirmDelete(bookDiv);
         }
     });
 }
@@ -225,10 +277,13 @@ function displayLibrary () {
 document.querySelector('.add').addEventListener('click', (e) => {
     document.querySelector('.modal').classList.add("active");
     document.querySelector('.add-book-form').classList.add("active");
+    document.querySelector('.close').classList.add('active');
 });
 
 // close button for the add modal
-document.querySelector('.close').addEventListener('click', closeAdd);
+document.querySelector('.close').addEventListener('click', () => {
+    closeAddModal();
+});
 
 
 const book1 = new Book ("The Great Gatsby", "F. Scott Fitzgerald", 208, 102,  false);
