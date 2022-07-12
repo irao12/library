@@ -116,7 +116,6 @@ function displayBook(book) {
             }
 
             for (let i = bookNum; i < myLibrary.length; i++){
-                console.log(i);
                 myLibrary[i].bookNumber--;
             }
 
