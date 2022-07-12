@@ -56,10 +56,13 @@ body {
 /* Main Content */
 
 .main {
+    font-family: 'Roboto';
+
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    grid-auto-rows: 300px;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    grid-auto-rows: 350px;
     gap: 20px;
+
     padding: 15px;
     padding-top: 25px;
 }
@@ -132,3 +135,110 @@ body {
 
 /* add book modal */
 
+.add-modal {
+    height: 100%;
+    width: 100%;
+
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+
+    font-size: 2rem;
+}
+
+.active {
+    display: flex;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 5px;
+    transform: rotate(45deg);
+    cursor: pointer;
+}
+
+.add-book-form {
+    color: white;
+    letter-spacing: 1px;
+    font-weight: 600;
+    width: min(70%, 400px);
+    height: 60%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    background-color: rgb(146, 149, 197);
+    border-radius: 10px;
+}
+
+.add-book-form form {
+    height: min(70%, 400px);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.add-book-form .form-page-section {
+    display: flex;
+    justify-content: space-between;
+    width: 65%
+}
+
+.error, .invalid {
+    font-size: 1rem;
+    color: #c23131;
+    align-self: center;
+    width: 60%;
+}
+
+.add-book-form input[type='text'] {
+    width: 60%;
+    font-size: 1rem;
+    font-weight: 600;
+
+    border: none;
+    border-radius: 5px;
+
+    padding: 7px;
+    
+}
+
+.add-book-form input[type='number'] {
+    width: min(40%, 120px);
+    font-size: 1rem;
+    font-weight: 600;
+
+    border: none;
+    border-radius: 5px;
+
+    padding: 7px;
+}
+
+.add-book-form button {
+    color: #504a6b;
+    font-weight: 600;
+
+    padding: 20px 80px;
+    background-color: #dfd791;
+    font-size: 1.4rem;;
+    
+    border: none;
+    border-radius: 8px;;
+
+    cursor: pointer;
+}
