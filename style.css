@@ -328,7 +328,7 @@ body {
     letter-spacing: 1px;
     font-weight: 600;
     width: min(70%, 400px);
-    height: 80%;
+    height: 80vh;
 
     display: flex;
     justify-content: center;
@@ -341,13 +341,23 @@ body {
 }
 
 .book-form {
-    height: 80%;
+    height: 80vh;
 
     display: none;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
+}
+
+@media screen and (max-height: 620px) {
+    .book-form {
+        height: 500px;
+    }
+    .form-div {
+        height: 500px;
+        gap: 0;
+    }
 }
 
 .error, .invalid {
@@ -401,7 +411,7 @@ body {
 
 /* edit book modal */
 
-form.book-form, form.book-form {
+form.book-form {
     display: none;
     flex-direction: column;
     justify-content: center;
