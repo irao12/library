@@ -198,10 +198,11 @@ function editBook(element) {
     if (isValid(title, numPages, numRead)) {
         currBook.title = title.value;
         currBook.author = author.value;
-        currBook.pages = numPages.value;
-        currBook.read = numRead.value;
+        currBook.pages = numPages.value ? numPages.value : 0;
+        currBook.read = numRead.value ? numRead.value : 0;
         currBook.finished = currBook.pages == currBook.read;
 
+        console.log(currBook.pages)
         updateBookDiv(bookDiv);
         closeAddEditModal();
     }
@@ -220,11 +221,13 @@ function updateBookDiv (bookDiv) {
 
     // updated page count and pages read
     const pagesSection = bookDiv.children[2];
+    pagesSection.children[0].innerText = 'page count: ' + currBook.pages;
     pagesSection.children[1].innerText = 'pages read: ' + currBook.read;
 
     // update the progress bar
     const progressIndicator = bookDiv.children[3].firstChild;
     let percentageRead = currBook.read / currBook.pages;
+    if (currBook.pages == 0) percentageRead = 0;
     progressIndicator.style.width= "" + Math.floor(percentageRead * 100) + "%";
 
     // update the status
