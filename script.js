@@ -34,12 +34,20 @@ function closeModal() {
 
 function closeAddEditModal() {
     closeModal();
+
     document.querySelector('.close').classList.remove('active');
     const bookForm = document.querySelector('.book-form');
+
     bookForm.classList.remove('active');
     bookForm.firstChild.remove();
     bookForm.lastChild.remove();
+    bookForm.reset();
 
+    const error = document.querySelector('.error');
+    if (error) error.remove();
+    const invalid = document.querySelector('.invalid');
+    if (invalid) invalid.remove();
+    
 }
 
 function openAddEditForm() {
@@ -48,25 +56,29 @@ function openAddEditForm() {
 }
 
 function isValid(title, numPages, numRead) {
+    const author = document.querySelector('author-input');
+
     const titleValue = title.value;
     const numPagesValue = numPages.value;
     const numReadValue = numRead.value;
 
-    let hasTitle = titleValue != '';
-    let hasValid = numPagesValue >= numReadValue;
+    const button = title.parentNode.parentNode.lastElementChild;
+
+
+    const hasValid = (numPagesValue - numReadValue) >= 0;
 
     const errorExists = document.querySelector('.error');
 
     // title must be empty, if it is, display an error
-    if (!hasTitle) {
+    if (!titleValue) {
         // checks if the invalid message is present, if not, it will display it
         if (!errorExists){
             const error = document.createElement('p');
             error.classList.add("error");
             error.textContent = "* please enter a title"
             title.parentNode.insertBefore(error, author);
-            return false;
         }
+        return false;
     }
     else if (errorExists) {
         // remove the error message if there is a title present
@@ -82,7 +94,7 @@ function isValid(title, numPages, numRead) {
             const invalid = document.createElement('p');
             invalid.classList.add('invalid');
             invalid.textContent = "* pages read must be less than the number of pages";
-            title.parentNode.insertBefore(invalid, addButton);
+            title.parentNode.parentNode.insertBefore(invalid,  title.parentNode.parentNode.lastChild);
         }
         return false;
     }
@@ -97,11 +109,6 @@ function isValid(title, numPages, numRead) {
 function openAddBook (bookDiv) {
     openModal();
     openAddEditForm();
-
-    const title = document.querySelector('#title-input');
-    const author = document.querySelector('#author-input');
-    const numPages = document.querySelector('#pages-input');
-    const numRead = document.querySelector('#read-input');
 
     const form = document.querySelector('.book-form');
     form.prepend("add book");
@@ -141,10 +148,6 @@ function addBook () {
         displayBook(newBook);
 
         closeAddEditModal();
-
-        // reset form values
-        document.querySelector('.book-form').reset();
-        
     }
 }
 
@@ -188,21 +191,16 @@ function editBook(element) {
     const currBook = myLibrary[bookDiv.getAttribute('number')];
     
     const title = document.querySelector('#title-input');
-    title.value = currBook.title;
     const author = document.querySelector('#author-input');
-    title.author = currBook.author;
     const numPages = document.querySelector('#pages-input');
-    title.numPages = currBook.numPages;
     const numRead = document.querySelector('#read-input');
-    title.numRead = currBook.numRead;
-
 
     if (isValid(title, numPages, numRead)) {
         currBook.title = title.value;
         currBook.author = author.value;
         currBook.pages = numPages.value;
         currBook.read = numRead.value;
-        currBook.finish = currBook.numPages == currBook.numRead ? true : false;
+        currBook.finished = currBook.pages == currBook.read;
 
         updateBookDiv(bookDiv);
         closeAddEditModal();
@@ -410,7 +408,7 @@ document.querySelector('.add').addEventListener('click', (e) => {
 
 // close button for the add modal
 document.querySelector('.close').addEventListener('click', () => {
-    closeAddEditModal()
+    closeAddEditModal();
 });
 
 

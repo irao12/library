@@ -328,7 +328,7 @@ body {
     letter-spacing: 1px;
     font-weight: 600;
     width: min(70%, 400px);
-    height: 60%;
+    height: 80%;
 
     display: flex;
     justify-content: center;
@@ -341,7 +341,7 @@ body {
 }
 
 .book-form {
-    height: min(70%, 400px);
+    height: 80%;
 
     display: none;
     flex-direction: column;
@@ -350,17 +350,21 @@ body {
     gap: 20px;
 }
 
-.form-div .form-page-section {
-    display: flex;
-    justify-content: space-around;
-    width: 65%
-}
-
 .error, .invalid {
     font-size: 1rem;
     color: #c23131;
     align-self: center;
     width: 60%;
+}
+
+.error {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+}
+
+.invalid {
+  margin-top: -30px;
 }
 
 .form-div input[type='text'] {
@@ -412,6 +416,8 @@ form.book-form, form.book-form {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+
+    position: relative;
 }
 
 .input label {
