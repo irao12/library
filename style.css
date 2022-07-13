@@ -350,16 +350,6 @@ body {
     gap: 20px;
 }
 
-@media screen and (max-height: 620px) {
-    .book-form {
-        height: 500px;
-    }
-    .form-div {
-        height: 500px;
-        gap: 0;
-    }
-}
-
 .error, .invalid {
     font-size: 1rem;
     color: #c23131;
@@ -463,4 +453,14 @@ form.book-form button, .book-form button {
     display: flex !important;
 }
 
+@media screen and (max-height: 620px) {
+    form.book-form {
+        height: 400px;
+        gap: 20px;
+    }
 
+    .form-div {
+        height: 400px;
+        gap: 0;
+    }
+}
