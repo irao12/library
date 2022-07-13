@@ -39,19 +39,28 @@
                         <p>Are you sure you want to delete?</p>
                     </div>
 
-                    <form class='add-book-form' action="">
-                        Add a book!
+                    <form class='book-form' action="">
                         
-                        <input type="text" id="title-input" placeholder="title" required>
-                        <input type="text" id="author-input" placeholder="author">
-                        <div class="form-page-section">
-                            <input type="number" id="num-pages-input" placeholder="# of pages" min=0 title="number of pages in total">
-                            <input type="number" id="num-read-input" placeholder="# pages read" min=0 title="number of pages read">
+                        <div class="input">
+                            <label for="title-input">Title</label>
+                            <input type="text" id="title-input" placeholder="title" required>
                         </div>
-
-                        <button type="button" class='add-button' onclick=createNewBook()>add</button>
+                        <div class="input">
+                            <label for="author-input">Author</label>
+                            <input type="text" id="author-input" placeholder="author">
+                        </div>
+                        
+                        <div class="input">
+                            <label for="pages-input">Page Count</label>
+                            <input type="number" id="pages-input" placeholder="# of pages" min=0 title="number of pages in total">
+                        </div>
+                        
+                        <div class="input">
+                            <label for="read-input">Pages Read</label>
+                            <input type="number" id="read-input" placeholder="# pages read" min=0 title="number of pages read">
+                        </div>
+                        
                     </form>
-
                 </div>
 
             </div>

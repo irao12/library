@@ -23,28 +23,32 @@ Book.prototype.changeStatus = function () {
     }
 }
 
+function openModal() {
+    document.querySelector('.modal').classList.add("active");
+}
 
 function closeModal() {
     // modal only shows if it has the active class, so remove it to close it
     document.querySelector('.modal').classList.remove("active");
 }
 
-function closeAddModal() {
+function closeAddEditModal() {
     closeModal();
     document.querySelector('.close').classList.remove('active');
-    document.querySelector('.add-book-form').classList.remove('active');
+    const bookForm = document.querySelector('.book-form');
+    bookForm.classList.remove('active');
+    bookForm.firstChild.remove();
+    bookForm.lastChild.remove();
+
 }
 
-function createNewBook () {
-    const title = document.querySelector('#title-input');
-    const author = document.querySelector('#author-input');
-    const numPages = document.querySelector('#num-pages-input');
-    const numRead = document.querySelector('#num-read-input');
-    const addButton = document.querySelector('.add-button');
+function openAddEditForm() {
+    document.querySelector('.book-form').classList.add('active');
+    document.querySelector('.close').classList.add('active');
+}
 
-    // retrieve values from the form inputs
+function isValid(title, numPages, numRead) {
     const titleValue = title.value;
-    const authorValue = author.value;
     const numPagesValue = numPages.value;
     const numReadValue = numRead.value;
 
@@ -61,6 +65,7 @@ function createNewBook () {
             error.classList.add("error");
             error.textContent = "* please enter a title"
             title.parentNode.insertBefore(error, author);
+            return false;
         }
     }
     else if (errorExists) {
@@ -79,13 +84,51 @@ function createNewBook () {
             invalid.textContent = "* pages read must be less than the number of pages";
             title.parentNode.insertBefore(invalid, addButton);
         }
+        return false;
     }
     else if (invalidExists) {
         // remove the invalid message if the values are no longer invalid
         invalidExists.remove();
     }
+
+    return true;
+}
+
+function openAddBook (bookDiv) {
+    openModal();
+    openAddEditForm();
+
+    const title = document.querySelector('#title-input');
+    const author = document.querySelector('#author-input');
+    const numPages = document.querySelector('#pages-input');
+    const numRead = document.querySelector('#read-input');
+
+    const form = document.querySelector('.book-form');
+    form.prepend("add book");
+
+    const addButton = document.createElement('button');
+    addButton.textContent = 'add';
+    addButton.classList.add('add-button');
+    addButton.setAttribute('type', 'button');
+    addButton.bookDiv = bookDiv;
+    form.appendChild(addButton);
     
-    if (hasTitle && hasValid){
+    addButton.addEventListener('click', addBook);
+}
+
+function addBook () {
+    const title = document.querySelector('#title-input');
+    const author = document.querySelector('#author-input');
+    const numPages = document.querySelector('#pages-input');
+    const numRead = document.querySelector('#read-input');
+
+    // retrieve values from the form inputs
+    const titleValue = title.value;
+    const authorValue = author.value;
+    const numPagesValue = numPages.value;
+    const numReadValue = numRead.value;
+    
+    if (isValid(title, numPages, numRead)){
         const newBook = new Book (titleValue, 
                                   authorValue == '' ? 'unknown' : authorValue, 
                                   numPagesValue == '' ? 0 : numPagesValue,
@@ -97,10 +140,10 @@ function createNewBook () {
         addBookToLibrary(newBook);
         displayBook(newBook);
 
-        closeAddModal();
+        closeAddEditModal();
 
         // reset form values
-        document.querySelector('.add-book-form').reset();
+        document.querySelector('.book-form').reset();
         
     }
 }
@@ -108,6 +151,63 @@ function createNewBook () {
 function addBookToLibrary(book){
     myLibrary.push(book);
 }
+
+function openEditBook (bookDiv) {
+    openModal();
+    openAddEditForm();
+
+    const currBook = myLibrary[bookDiv.getAttribute('number')];
+
+    const title = document.querySelector('#title-input');
+    title.value = currBook.title;
+
+    const author = document.querySelector('#author-input');
+    author.value = currBook.author;
+
+    const numPages = document.querySelector('#pages-input');
+    numPages.value = currBook.pages;
+
+    const numRead = document.querySelector('#read-input');
+    numRead.value = currBook.read;
+
+    const form = document.querySelector('.book-form')
+    form.prepend("edit book");
+
+    const editButton = document.createElement('button');
+    editButton.textContent = 'edit';
+    editButton.classList.add('edit-button');
+    editButton.setAttribute('type', 'button');
+    editButton.bookDiv = bookDiv;
+    form.appendChild(editButton);
+    
+    editButton.addEventListener('click', editBook);
+}
+
+function editBook(element) {
+    const bookDiv = element.target.bookDiv;
+    const currBook = myLibrary[bookDiv.getAttribute('number')];
+    
+    const title = document.querySelector('#title-input');
+    title.value = currBook.title;
+    const author = document.querySelector('#author-input');
+    title.author = currBook.author;
+    const numPages = document.querySelector('#pages-input');
+    title.numPages = currBook.numPages;
+    const numRead = document.querySelector('#read-input');
+    title.numRead = currBook.numRead;
+
+
+    if (isValid(title, numPages, numRead)) {
+        currBook.title = title.value;
+        currBook.author = author.value;
+        currBook.pages = numPages.value;
+        currBook.read = numRead.value;
+        currBook.finish = currBook.numPages == currBook.numRead ? true : false;
+
+        updateBookDiv(bookDiv);
+        closeAddEditModal();
+    }
+} 
 
 function updateBookDiv (bookDiv) {
     const bookNum = parseInt(bookDiv.getAttribute('number'));
@@ -208,10 +308,21 @@ function displayBook(book) {
     const bookDiv = document.createElement("div");
 
     /* delete button*/
+    const toolsDiv = document.createElement('div');
+    toolsDiv.classList.add('tools');
+
+    const editDiv = document.createElement('div');
+
+    editDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>';
+    editDiv.classList.add('edit');
+    toolsDiv.appendChild(editDiv);
+
     const deleteDiv = document.createElement('div');
     deleteDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>';
     deleteDiv.classList.add('delete');
-    bookDiv.appendChild(deleteDiv);
+    toolsDiv.appendChild(deleteDiv);
+
+    bookDiv.appendChild(toolsDiv);
 
     /* title and author section */
     const titleAndAuthorDiv = document.createElement('div');
@@ -279,6 +390,12 @@ function displayBook(book) {
         {
             confirmDelete(bookDiv);
         }
+
+        else if (e.target.parentNode.classList.contains('edit') ||
+            e.target.parentNode.parentNode.classList.contains('edit'))
+        {
+            openEditBook(bookDiv);
+        }
     });
 }
 
@@ -288,14 +405,12 @@ function displayLibrary () {
 
 // add button
 document.querySelector('.add').addEventListener('click', (e) => {
-    document.querySelector('.modal').classList.add("active");
-    document.querySelector('.add-book-form').classList.add("active");
-    document.querySelector('.close').classList.add('active');
+    openAddBook();
 });
 
 // close button for the add modal
 document.querySelector('.close').addEventListener('click', () => {
-    closeAddModal();
+    closeAddEditModal()
 });
 
 
